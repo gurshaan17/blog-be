@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String },
     googleId: { type: String },
     isAdmin: { type: Boolean, default: false },
-    name: { type: String, required: true }
+    name: { type: String }
 });
 
 userSchema.pre('save', async function(next) {

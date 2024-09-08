@@ -1,8 +1,11 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const LocalStrategy = require('passport-local').Strategy; // Add this import
 const passport = require('passport');
-const User = require('../models/user');
+const User = require('../models/user'); // Ensure this path is correct
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
+// Google OAuth Strategy
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -25,3 +28,41 @@ passport.use(new GoogleStrategy({
     }
   }
 ));
+
+// Local Strategy for Email/Password
+passport.use(new LocalStrategy({
+  usernameField: 'email',    // Map 'email' field for login instead of the default 'username'
+  passwordField: 'password'  // Password field
+}, (email, password, done) => {
+  // Find the user by email
+  User.findOne({ email: email }, (err, user) => {
+      if (err) return done(err);
+      if (!user) {
+          return done(null, false, { message: 'Email not registered' });
+      }
+
+      // Compare password with hashed password in the database
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (err) throw err;
+          if (isMatch) {
+              return done(null, user); // Correct password
+          } else {
+              return done(null, false, { message: 'Incorrect password' });
+          }
+      });
+  });
+}));
+
+// Serializing the user to store in session/cookie
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+// Deserializing the user by retrieving from the database
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
+
+module.exports = passport;

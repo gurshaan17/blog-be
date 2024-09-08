@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGO_URI)
 .catch(err => console.error('MongoDB connection error:', err));
 
 app.use('/auth', authRoutes);
-app.use('/blogs', blogRoutes);
+app.use('/blog', blogRoutes);
 
 app.listen(4000, () => { 
     console.log('Server running on port 4000');
