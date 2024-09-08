@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
 // Google login callback (handled by passport)
 exports.googleCallback = (req, res) => {
     const token = jwt.sign({ userId: req.user._id }, process.env.JWT_SECRET);
-    res.redirect(`/dashboard?token=${token}`);
+    res.redirect(`https://blog-gurshaan.vercel.app?token=${token}`);
 };
 
 exports.signup = async (req, res) => {
