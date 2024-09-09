@@ -53,3 +53,13 @@ exports.getUserBlogs = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
+// Get all blogs (admin)
+exports.getAllBlogs = async (req, res) => {
+    try {
+        const blogs = await Blog.find().populate('author');
+        res.json(blogs);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
