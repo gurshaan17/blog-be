@@ -66,3 +66,18 @@ exports.loginmail = (req, res, next) => {
         });
     })(req, res, next);
 }
+
+// Get user ID by email
+exports.getUserId = async (req, res) => {
+    try {
+        const { email } = req.query; 
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json({ userId: user._id });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+

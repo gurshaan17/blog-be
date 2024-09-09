@@ -4,11 +4,11 @@ const User = require('../models/user');
 // Create blog
 exports.createBlog = async (req, res) => {
     try {
-        const { title, content } = req.body;
+        const { title, content, author } = req.body;
         const blog = new Blog({
             title,
             content,
-            author: req.user.userId
+            author
         });
         await blog.save();
         res.status(201).json({ message: 'Blog submitted for approval' });
