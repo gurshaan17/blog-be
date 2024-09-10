@@ -9,5 +9,6 @@ router.get('/public', blogController.getApprovedBlogs);
 router.get('/dashboard', auth, blogController.getUserBlogs);
 router.post('/approve', auth, admin, blogController.approveBlog);
 router.get('/all', auth, admin, blogController.getAllBlogs);
+router.get('/:id', auth, blogController.getBlogById);
 
 module.exports = router;

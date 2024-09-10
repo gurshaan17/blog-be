@@ -63,3 +63,17 @@ exports.getAllBlogs = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+// Get blog by ID
+exports.getBlogById = async (req, res) => {
+    try {
+        const { id } = req.params; 
+        const blog = await Blog.findById(id).populate('author');
+        if (!blog) {
+            return res.status(404).json({ error: 'Blog not found' });
+        }
+        res.json(blog);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
