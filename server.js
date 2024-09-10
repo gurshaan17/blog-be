@@ -11,7 +11,7 @@ require('./config/passport');
 const app = express();
 
 const corsOptions = {
-    origin: ['http://localhost:5173', 'https://blog-gurshaan.vercel.app','https://blog-nextjs-gurshaan.vercel.app/','http://localhost:3000'],
+    origin: ['http://localhost:5173', 'https://blog-gurshaan.vercel.app','https://blog-nextjs-gurshaan.vercel.app','http://localhost:3000'],
     credentials: true 
 };
 
